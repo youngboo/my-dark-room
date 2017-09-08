@@ -1,0 +1,75 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="container">
+  <h1 class="title">
+    Welcome to {{title}}!
+  </h1>
+  <div class="ui three column doubling stackable grid container">
+
+    <div class="column">
+      <!-- 事件日志-->
+      <ul>
+        <li>事件一</li>
+        <li>事件二</li>
+        <li>事件三</li>
+        <li>事件四</li>
+        <li>事件五</li>
+      </ul>
+    </div>
+
+    <div class="column">
+      <!-- 游戏主界面-->
+      <div class="ui grid">
+        <div class="four wide column">
+          <div class="ui vertical fluid tabular menu">
+            <a class="item active" routerLink="/room">room</a>
+            <a class="item" routerLink="/village">village</a>
+            <a class="item" routerLink="/dusty">dusty</a>
+            <a class="item" routerLink="/dusty">dusty</a>
+          </div>
+        </div>
+        <div class="twelve wide stretched column">
+          <div class="ui segment">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="column">
+      <!-- 材料箱-->
+      <h4 class="ui horizontal divider header">
+        <i class="tag icon"></i>
+        Description
+      </h4>
+      <p>Doggie treats are good for all times of the year. Proven to be eaten by 99.9% of all dogs worldwide.</p>
+      <h4 class="ui horizontal divider header">
+        <i class="bar chart icon"></i>
+        Specifications
+      </h4>
+      <table class="ui definition table">
+        <tbody>
+        <tr>
+          <td class="two wide column">Size</td>
+          <td>1" x 2"</td>
+        </tr>
+        <tr>
+          <td>Weight</td>
+          <td>6 ounces</td>
+        </tr>
+        <tr>
+          <td>Color</td>
+          <td>Yellowish</td>
+        </tr>
+        <tr>
+          <td>Odor</td>
+          <td>Not Much Usually</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+
