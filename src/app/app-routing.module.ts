@@ -6,7 +6,7 @@ import {VillageComponent} from "./village.component";
 import {DustyComponent} from "./dusty.component";
 
 const routes: Routes = [
-  { path: '',         component:AppComponent },
+  { path: '', redirectTo:'room',pathMatch:'full'},
   { path: 'room',     component: RoomComponent },
   { path: 'village',  component: VillageComponent },
   { path: 'dusty',    component: DustyComponent }
