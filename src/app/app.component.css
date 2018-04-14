@@ -1,8 +1,10 @@
-div.button div.cooldown{
+div.button div.coolDown{
   position: absolute;
   top: 0px;
   left: 0px;
   z-index: -1;
   height: 100%;
-  background-color: #DDDDDD;
+
 }
+.ui.disabled.button,.room.ui.disabled.button{cursor:default;opacity: 1!important;background-image:none!important;-webkit-box-shadow:none!important;box-shadow:none!important;pointer-events:none!important}
+

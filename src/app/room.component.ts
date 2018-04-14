@@ -6,6 +6,7 @@ import {
   animate,
   transition
 } from '@angular/animations';
+import {BasicData, AllDataService} from "../service/all-data-service";
 
 export class Button{
   id:number;
@@ -23,10 +24,10 @@ export class Button{
       })),
       state('active',   style({
 
-        transform: 'scale(1.2)'
+        transform: 'scale(1)'
       })),
       transition('inactive => active, active => inactive',
-        [style({backgroundColor:'#cfd8dc',transform:'scale(1.5)'}),animate('100ms ease-out')])
+        [style({transform:'scale(1.2)'}),animate('500ms ease-out')])
     ]),
     trigger('flyInOut',[
       state("in",style({transform:"translateX(0)"})),
@@ -38,37 +39,24 @@ export class Button{
       ])
     ]),
     trigger("coolDown",[
-      state("comedown",style({width:"100%"})),
-      state("outdown",style({width:"0%"})),
-      transition("comedown=>outdown",[style({}),animate(1000)])
+      state("none",style({})),
+      state("comeDown",style({width:"100%"})),
+      state("outDown",style({width:"0%"})),
+      transition("*=>outDown",[style({background:'#DDDDDD'}),animate(5000)])
     ])
   ],
   template:`
     <div class="ui three column grid">
-        <div class="ui primary basic button" [@heroState]="roomBtn.state" (click)="toggleState()">{{roomBtn.text}}
-          <div class="cooldown" [@coolDown]="coolDown" >hidden background</div>
-        </div>
-        <div class="ui primary basic button" *ngIf="roomBtn.inOut=='in'" [@flyInOut]='roomBtn.inOut' (click)="out()">{{roomBtn.text}}</div>
+        <div class="room ui basic button" [@heroState]="roomBtn.state" (click)="toggleState()">{{roomBtn.text}}
+      <div class="coolDown" (@coolDown.start)="animationStarted($event)" (@coolDown.done)="animationDone($event)" [@coolDown]="coolDown"></div>
+    </div>
+        <div class="ui primary basic disabled button" *ngIf="roomBtn.inOut=='in'" [@flyInOut]='roomBtn.inOut' (click)="out()">{{roomBtn.text}}</div>
     </div>
     
     <div class="ui three column grid">
       <div class="row">
         <div class="column">
-          <div>added</div>
-          <div>added</div>
-          <div>added</div>
-          <div>added</div>
-          <div>added</div>
-          <div>added</div>
-          <div>added</div>
-          <div>added</div>
-          <div>added</div>
-          <div>added</div>
-          <div>added</div>
-          <div>added</div>
-          <div>added</div>
-          <div>added</div>
-          <div>added</div>
+          <div *ngFor="let add of roomData">{{add.name}}</div>
         </div>
         <div class="column">
           <div>added</div>
@@ -90,10 +78,17 @@ export class Button{
   styleUrls:['./app.component.css']
 })
 export class RoomComponent implements OnInit{
+  roomData:BasicData[];
+
+  constructor(private allDataService:AllDataService){}
   ngOnInit(): void {
-    this.outAfterTwoSeconds();
+    //this.outAfterTwoSeconds();
+    //TODO 获取真实数据
+    this.allDataService.getRoomData().then(roomData=>{
+      this.roomData = roomData;
+    });
   }
-  coolDown:string = "comedown";
+  coolDown:string = "comeDown";
   title:string = 'my dark room';
   roomBtn:Button = {
     id:1,
@@ -103,14 +98,14 @@ export class RoomComponent implements OnInit{
   };
   toggleState():void{
     this.roomBtn.state == "active"?this.roomBtn.state="inactive":this.roomBtn.state="active";
-    this.coolDown == "comedown"?this.coolDown="outdown":this.coolDown="comedown";
+    this.coolDown == "comeDown"?this.coolDown="outDown":this.coolDown="comeDown";
   }
   out():void{
     this.roomBtn.inOut = "out";
     console.log(this.roomBtn.inOut);
   }
   outAfterTwoSeconds():void{
-    setTimeout(()=>this.roomBtn.inOut="out",2000);
+    setTimeout(()=>this.roomBtn.inOut="out",3000);
   }
   //倒计时效果 点击点火按钮，判断
   /*
@@ -124,4 +119,11 @@ export class RoomComponent implements OnInit{
 
 
    */
+  animationStarted($event:AnimationEvent):void{
+    //this.roomBtn.state = "disabled";
+  }
+  animationDone($event:AnimationEvent):void{
+    //this.roomBtn.state = "";
+    this.coolDown = "comeDown";
+  }
 }
